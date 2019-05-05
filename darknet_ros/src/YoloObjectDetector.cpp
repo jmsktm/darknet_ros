@@ -24,6 +24,7 @@ char *cfg;
 char *weights;
 char *data;
 char **detectionNames;
+std::bool newImageAvailable = false;
 
 YoloObjectDetector::YoloObjectDetector(ros::NodeHandle nh)
     : nodeHandle_(nh),
@@ -205,6 +206,7 @@ void YoloObjectDetector::cameraCallback(const sensor_msgs::ImageConstPtr& msg)
     frameWidth_ = cam_image->image.size().width;
     frameHeight_ = cam_image->image.size().height;
   }
+  newImageAvailable = true;
   return;
 }
 
@@ -529,7 +531,8 @@ void YoloObjectDetector::yolo()
 
   demoTime_ = what_time_is_it_now();
 
-  while (!demoDone_) {
+  while (!demoDone_ && newImageAvailable) {
+    newImageAvailable = false;
     buffIndex_ = (buffIndex_ + 1) % 3;
     fetch_thread = std::thread(&YoloObjectDetector::fetchInThread, this);
     detect_thread = std::thread(&YoloObjectDetector::detectInThread, this);
