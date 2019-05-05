@@ -182,6 +182,7 @@ void YoloObjectDetector::init()
 void YoloObjectDetector::cameraCallback(const sensor_msgs::ImageConstPtr& msg)
 {
   ROS_DEBUG("[YoloObjectDetector] USB image received.");
+  newImageAvailable = true;
 
   cv_bridge::CvImagePtr cam_image;
 
@@ -205,7 +206,6 @@ void YoloObjectDetector::cameraCallback(const sensor_msgs::ImageConstPtr& msg)
     frameWidth_ = cam_image->image.size().width;
     frameHeight_ = cam_image->image.size().height;
   }
-  newImageAvailable = true;
   return;
 }
 
