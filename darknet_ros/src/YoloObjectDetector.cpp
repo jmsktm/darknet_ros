@@ -24,7 +24,6 @@ char *cfg;
 char *weights;
 char *data;
 char **detectionNames;
-std::bool newImageAvailable = false;
 
 YoloObjectDetector::YoloObjectDetector(ros::NodeHandle nh)
     : nodeHandle_(nh),
